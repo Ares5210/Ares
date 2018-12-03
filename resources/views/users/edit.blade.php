@@ -1,3 +1,8 @@
+@extends('layouts.default')
+
+@section('title', '编辑')
+
+@section('content')
 <div class="col-md-offset-2 col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -5,35 +10,35 @@
     </div>
       <div class="panel-body">
 
-        
+        @include('shared._error')
         <div class="gravatar_edit">
-          <a href="http://gravatar.com/emails" target="_blank">
-            <img src="http://s.gravatar.com/avatar/da933f8ed84c786fe1e6df0430c987a4?s=100" alt="Ares" class="gravatar">
+          <a href="{{ route('users.show', $user->id) }}">
+            <img src="{{ $user->gravatar() }}" alt="{{ $user->name }}" class="gravatar">
           </a>
         </div>
 
-        <form method="POST" action="http://laravel.test/users/1">
-            <input type="hidden" name="_method" value="PATCH">
-            <input type="hidden" name="_token" value="e3So70IpVyaWGGO3IpKR5pDb5fd4mqacWh2fEGML">
+        <form method="POST" action="{{ route('users.update', $user->id) }}">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
 
             <div class="form-group">
               <label for="name">名称：</label>
-              <input type="text" name="name" class="form-control" value="Ares">
+              <input type="text" name="name" class="form-control" value="{{ $user->name }}">
             </div>
 
             <div class="form-group">
               <label for="email">邮箱：</label>
-              <input type="text" name="email" class="form-control" value="ares_5210@163.com" disabled="">
+              <input type="text" name="email" class="form-control" value="{{ $user->email }}" disabled="">
             </div>
 
             <div class="form-group">
               <label for="password">密码：</label>
-              <input type="password" name="password" class="form-control" value="">
+              <input type="password" name="password" class="form-control" value="{{ old('password') }}">
             </div>
 
             <div class="form-group">
               <label for="password_confirmation">确认密码：</label>
-              <input type="password" name="password_confirmation" class="form-control" value="">
+              <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation') }}">
             </div>
 
             <button type="submit" class="btn btn-primary">更新</button>
@@ -41,3 +46,4 @@
     </div>
   </div>
 </div>
+@stop
